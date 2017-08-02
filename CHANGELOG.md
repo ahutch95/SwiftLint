@@ -16,7 +16,7 @@
   [#1370](https://github.com/realm/SwiftLint/issues/1370)
 
 * Produce an error when a `// swiftlint:disable` command does not silence
-  any rules.  
+  any violations.  
   [JP Simard](https://github.com/jpsim)
   [#1102](https://github.com/realm/SwiftLint/issues/1102)
 

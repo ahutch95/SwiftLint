@@ -15,6 +15,11 @@
   [Ornithologist Coder](https://github.com/ornithocoder)
   [#1370](https://github.com/realm/SwiftLint/issues/1370)
 
+* Produce an error when a `// swiftlint:disable` command does not silence
+  any rules.  
+  [JP Simard](https://github.com/jpsim)
+  [#1102](https://github.com/realm/SwiftLint/issues/1102)
+
 ##### Bug Fixes
 
 * Fix false positive on `force_unwrapping` rule when declaring

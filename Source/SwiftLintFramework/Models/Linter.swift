@@ -74,7 +74,15 @@ private extension Rule {
         let superfluousDisableCommandViolations = Self.superfluousDisableCommandViolations(regions: regions,
                                                                                            allViolations: violations)
 
-        let enabledViolations = enabledViolationsAndRegions.map { $0.0 }
+        let enabledViolations: [StyleViolation]
+        if file.contents.hasPrefix("#!") { // if a violation happens on the same line as a shebang, ignore it
+            enabledViolations = enabledViolationsAndRegions.flatMap { violation, _ in
+                if violation.location.line == 1 { return nil }
+                return violation
+            }
+        } else {
+            enabledViolations = enabledViolationsAndRegions.map { $0.0 }
+        }
         let deprecatedToValidIDPairs = disabledViolationsAndRegions.flatMap { _, region -> [(String, String)] in
             let identifiers = region?.deprecatedAliasesDisabling(rule: self) ?? []
             return identifiers.map { ($0, ruleID) }

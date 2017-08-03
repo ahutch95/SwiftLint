@@ -19,6 +19,9 @@ private struct LintResult {
 private extension Rule {
     static func superfluousDisableCommandViolations(regions: [Region],
                                                     allViolations: [StyleViolation]) -> [StyleViolation] {
+        guard !regions.isEmpty && !allViolations.isEmpty else {
+            return []
+        }
         let allIDs = description.allIdentifiers
         let regionsDisablingCurrentRule = regions.filter { region in
             return !region.disabledRuleIdentifiers.intersection(allIDs).isEmpty
@@ -31,7 +34,7 @@ private extension Rule {
             guard noViolationsInDisabledRegion else {
                 return nil
             }
-            let description = RuleDescription(
+            let superfluousDisableCommandDescription = RuleDescription(
                 identifier: "superfluous_disable_command",
                 name: "Superfluous Disable Command",
                 description: "SwiftLint 'disable' commands are superfluous when the disabled rule would not have " +
@@ -39,7 +42,7 @@ private extension Rule {
                 kind: .lint
             )
             return StyleViolation(
-                ruleDescription: description,
+                ruleDescription: superfluousDisableCommandDescription,
                 severity: .error,
                 location: region.start,
                 reason: "SwiftLint rule '\(description.identifier)' did not trigger a violation in the disabled " +
